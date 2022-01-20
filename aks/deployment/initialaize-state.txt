@@ -1,0 +1,20 @@
+# PREREQUISITES before running terraform apply
+# 1) Login to az cli and set subscription or pass subsction id in provider block
+# 2) Install istioctl cli
+# 3) Json editor jq
+# 4) unset kube context
+# BSG auto service subs - d13da823-22b0-4e09-b3c1-8e7ca6272524
+
+az login
+az account set --subscription="b3bf985d-e095-4581-b7d9-8bef19e4ad1a"
+kubectl config unset current-context
+
+# To initialize remote backend
+
+terraform init -backend-config=azurecreds.conf
+(https://gmusumeci.medium.com/how-to-create-an-azure-remote-backend-for-terraform-67cce5da1520 )
+## OR USE 
+
+export ARM_ACCESS_KEY=<pass storage account key>
+
+terraform init

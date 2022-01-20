@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^/${kibana_path}/(.*)$ /$1 break;
+      proxy_set_header Authorization "";
+    nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS
+    nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  name: kibana-kb-http-ingress-rules
+  namespace: elastic-system
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: kibana-kb-http
+          servicePort: 5601
+        path: /${kibana_path}
